@@ -1,0 +1,12 @@
+ChuckTetris
+-------------
+
+Este jogo foi baseado no clássico Tétris.
+Ele foi desenvolvido em 2007 para a disciplina de Programação Orientada a Objetos II do curso de Sistemas de Informação da UFSC.
+
+A equipe de desenvolvimento era:
+Kaléu Caminha
+Murilo Laghi
+Robinson Zimmermann
+
+Sem duvida o jogo ainda precisa de muitas melhorias. De qualquer forma, trouxe muito aprendizado e orgulho.
