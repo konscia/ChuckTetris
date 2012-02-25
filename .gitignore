@@ -1,5 +1,4 @@
-/Nhock-Project/build
-*.properties
+/ChuckTetris-Project/build/*
 *.class
 
 # OS generated files #
