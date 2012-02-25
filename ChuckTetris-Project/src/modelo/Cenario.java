@@ -1,3 +1,12 @@
+package modelo;
+
+
+
+import modelo.pecas.Cadeira;
+import modelo.pecas.Barra;
+import modelo.pecas.Triangulo;
+import modelo.pecas.Peca;
+import modelo.pecas.Quadrado;
 import java.util.Arrays;
 import javax.swing.*;
 import java.awt.GridLayout;
@@ -22,8 +31,7 @@ public class Cenario
 		proxima = this.geraPeca();
 	}
 	
-	public void setPermissaoDesce(boolean p)
-	{
+	public void setPermissaoDesce(boolean p){
 		permissaoDesce = p;
 	}
 	
@@ -332,20 +340,18 @@ public class Cenario
 	public void setPecaAtual()
 	{
 		pecaAtual = proxima;
+		this.setProxima(this.geraPeca());
 	}
 	
-	public void setProxima(Peca a)
-	{
+	public void setProxima(Peca a) {
 		proxima = a;
 	}
 	
-	public Peca getPecaAtual()
-	{
+	public Peca getPecaAtual() {
 		return pecaAtual;
 	}
 	
-	public Peca getProxima()
-	{
+	public Peca getProxima() {
 		return proxima;
 	}
 	

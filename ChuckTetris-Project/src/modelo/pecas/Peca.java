@@ -1,3 +1,5 @@
+package modelo.pecas;
+
 public abstract class Peca
 {
 	protected int[][] peca;

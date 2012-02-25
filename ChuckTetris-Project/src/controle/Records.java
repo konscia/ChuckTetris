@@ -1,3 +1,6 @@
+package controle;
+
+import modelo.Jogador;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

@@ -1,7 +1,12 @@
+
+
+
+import controle.ControleTetris;
+
 public class Tetris
 {
 	public static void main(String[] args)
 	{
-		ControleTetris controle = new ControleTetris();
+		ControleTetris controleTetris = new ControleTetris();
 	}
 }

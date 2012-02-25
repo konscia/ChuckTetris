@@ -1,3 +1,8 @@
+package modelo.pecas;
+
+
+import modelo.pecas.Peca;
+
 public class Cadeira extends Peca
 {
 	

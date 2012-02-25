@@ -1,3 +1,8 @@
+package modelo.pecas;
+
+
+import modelo.pecas.Peca;
+
 public class Barra extends Peca
 {
 	private char direcao;
