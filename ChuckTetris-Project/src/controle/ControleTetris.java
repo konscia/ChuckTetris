@@ -75,6 +75,8 @@ public class ControleTetris
 
 		if(cenario.perdeu()){
 			gameOver = true;
+			Records r = new Records();
+			r.salvarJogador(jogador);
 			JOptionPane.showMessageDialog(null,"Game Over");
 		}
 

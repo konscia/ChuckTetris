@@ -11,8 +11,7 @@ public class Jogador implements Serializable {
 		pontuacao=0;
 	}
 	
-	public void setNome(String n)
-	{
+	public void setNome(String n){
 		nome=n;
 	}
 	public String getNome() {return nome;}	
@@ -22,6 +21,7 @@ public class Jogador implements Serializable {
 	}
 	public long getPontuacao() {return pontuacao;}
 	
+	@Override
 	public String toString() {
 		return String.format(". %s\nPontuação: %d\n\n",
 			getNome(), getPontuacao());

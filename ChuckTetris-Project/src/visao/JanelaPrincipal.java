@@ -1,6 +1,7 @@
 package visao;
 
 import controle.ControleTetris;
+import controle.Records;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -171,7 +172,8 @@ public class JanelaPrincipal extends JFrame implements ActionListener
 			controle.novoJogo();
 
 		} else if(botaoPressionado == records){
-			//Exibe Records
+			Records r = new Records();
+			r.listarRecordes();
 
 		} else if(botaoPressionado == sair){
 			System.exit(0);

@@ -1,21 +1,12 @@
 package modelo;
-
-
-
 import modelo.pecas.Cadeira;
 import modelo.pecas.Barra;
 import modelo.pecas.Triangulo;
 import modelo.pecas.Peca;
 import modelo.pecas.Quadrado;
-import java.util.Arrays;
-import javax.swing.*;
-import java.awt.GridLayout;
-import java.awt.*;
-import javax.swing.Icon;
 
 public class Cenario
 {
-	
 	private int[][] grade;
 	private Peca pecaAtual;
 	private Peca proxima;
@@ -23,20 +14,29 @@ public class Cenario
 	
 	public Cenario()
 	{
-		
-		grade = new int[20][10];
-		for(int i=0; i<grade.length; i++)
-			for(int j=0; j<grade[0].length; j++)
-				grade[i][j]=0;
+		this.inicializaCenario();
+		//Sorteia próxima peça
 		proxima = this.geraPeca();
+	}
+
+	private void inicializaCenario(){
+		grade = new int[20][10];
+		for(int i=0; i<grade.length; i++) {
+			for(int j=0; j<grade[0].length; j++) {
+				grade[i][j]=0;
+			}
+		}
 	}
 	
 	public void setPermissaoDesce(boolean p){
 		permissaoDesce = p;
 	}
-	
-	public void imprimeMatriz()
-	{
+
+	/**
+	 * Usado para debug,
+	 * Imprime o cenário no console da IDE
+	 */
+	public void imprimeMatriz() {
 		String matriz = "";
 		for(int i = 0; i<grade.length; i++)
 		{	for(int j =0; j<grade[0].length; j++)
@@ -48,26 +48,22 @@ public class Cenario
 	
 	public void limpaCenario() {
 		for(int i=0; i<grade.length; i++)
-			for(int j=0; j<grade[0].length; j++)
-			{
+			for(int j=0; j<grade[0].length; j++) {
 				if(grade[i][j] > 5)
-					grade[i][j]=0;
+					grade[i][j] = 0;
 			}
 	}
 	
-	public int[][] getCenario()
-	{
+	public int[][] getCenario()	{
 		return grade;
 	}
 	
-	public void adicionaPeca(Peca p) 
-	{
+	public void adicionaPeca(Peca p) {
 		
-		int[][] auxPeca=p.getPeca();
+		int[][] auxPeca = p.getPeca();
 		
 		for(int i=0; i<auxPeca.length; i++)
-			for(int j=0; j<auxPeca[0].length; j++)
-			{
+			for(int j=0; j<auxPeca[0].length; j++)	{
 				if(auxPeca[i][j]==1)
 					auxPeca[i][j]=5;
 				else if(auxPeca[i][j]==2)
@@ -79,192 +75,139 @@ public class Cenario
 			}
 			
 		for(int i=4; i<(4+auxPeca.length); i++)
-			for(int j=0; j<auxPeca[0].length; j++)
-			{
+			for(int j=0; j<auxPeca[0].length; j++)	{
 				if(auxPeca[i-4][j]!=0)
 			    	grade[j][i]=auxPeca[i-4][j];
 			}
 			
 	}
 	
-	public boolean descePeca()
-	{
-			boolean podeMovimentar = true;
-			boolean controle = false;
-			try{
-			for(int i=grade.length-1; i>=0; i--)
-			{
-				for(int j=grade[0].length-1; j>=0; j--)
-						if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-						{
-							controle = true;
-							//Verifica se pode movimentar
-							if(grade[i+1][j] == 0)
-							{
-								podeMovimentar = true;
-							}
-							else
-							{
-								podeMovimentar= false;
-								setPermissaoDesce(false);
-								break;
-							}
-							
-							if(pecaAtual instanceof Cadeira )
-							{
-								if(grade[i][j-1] == 0)
-									podeMovimentar = true;
-								else
-									podeMovimentar = false;
-							}
-						}
-						if(controle) break; 
-			}
-						
-							//Movimenta
-					for(int i=grade.length-1; i>=0; i--)
-						for(int j=grade[0].length-1; j>=0; j--)
-							if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-							{
-								if(podeMovimentar)
-								{
-									grade[i+1][j]=grade[i][j];
-									grade[i][j]=0;
-								}
-								else
-								{
-									this.fixaPeca();
-									return true;
-								}
-							}
-							
-					} //Fim Try
-					catch(ArrayIndexOutOfBoundsException e)
-					{	
-						this.fixaPeca();
-						return true;				
-					}
-					return false;
+	public boolean descePeca() {			
 
-				
+		try {
+			if(this.podeMovimentar("baixo")){
+				this.movimentaPecaBaixo();
+			} else {
+				this.setPermissaoDesce(false);
+				this.fixaPeca();
+				return true;
+			}		
+		} catch(ArrayIndexOutOfBoundsException e){
+			this.fixaPeca();
+			return true;
+		}
 		
+		return false;
 	}
 
-
-	
-
-	
-	public void paraEsquerda()
-	{
+	private boolean podeMovimentar(String direcao){
 		boolean podeMovimentar = true;
-			boolean controle = false;
-			try{
-			for(int j=0; j<=grade[0].length-1; j++)
-			{
-				for(int i=0; i<=grade.length-1; i++)
-						if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-						{
-							controle = true;
-							//Verifica se pode movimentar
-							if(grade[i][j-1] == 0)
-							{
-								podeMovimentar = true;
-							}
-							else
-							{
-								podeMovimentar= false;
-								break;
-							}
-							
-							if(pecaAtual instanceof Cadeira )
-							{
-								if(grade[i+1][j] == 0)
-									podeMovimentar = true;
-								else
-									podeMovimentar = false;
-							}
-							
-					}
-					if(controle) break; 
+
+		for(int i=grade.length-1; i>=0; i--) {
+			for(int j=grade[0].length-1; j>=0; j--) {
+				if(!this.ehPeca(i, j)){
+					continue; //pula para o próximo loop
+				}
+
+				//Pega a casa correspondente ao lado para o qual quer movimentar
+				int proximaCasa = 0;
+				if(direcao.equals("esquerda")){
+					proximaCasa = grade[i][j-1];
+				} else if(direcao.equals("direita")){
+					proximaCasa = grade[i][j+1];
+				} else { //baixo
+					proximaCasa = grade[i+1][j];
+				}
+
+				podeMovimentar = ( proximaCasa == 0 || proximaCasa >= 5);
+				if(!podeMovimentar){
+					return false; //Se um bloco não puder se movimentar, não movimenta nenhum
+				}
 			}
-						
-							//Movimenta
-					for(int j=0; j<=grade[0].length-1; j++)
-						for(int i=0; i<=grade.length-1; i++)
-							if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-							{
-								if(podeMovimentar)
-								{
-									grade[i][j-1]=grade[i][j];
-									grade[i][j]=0;
-								}
-								else
-								{
-									//		return true;
-								}
-							}
-							
-					} //Fim Try
-					catch(ArrayIndexOutOfBoundsException e)
-					{	
-						//	return true;				
-					}
-				//	return false;
+		}
+		return true;
+	}
+
+	private void movimentaPecaBaixo(){
+		for(int i=grade.length-2; i>=0; i--) {
+			for(int j=grade[0].length-1; j>=0; j--) {
+				if(!this.ehPeca(i, j)){
+					continue; //pula para o próximo loop
+				}
+
+				grade[i+1][j] = grade[i][j];		
+				grade[i][j]=0;
+			}
+		}
+	}
+
+	private void movimentaPecaDireita(){
+		for(int i=grade.length-1; i>=0; i--) {
+			for(int j=grade[0].length-1; j>=0; j--) {
+				if(!this.ehPeca(i, j)){
+					continue; //pula para o próximo loop
+				}
+
+				grade[i][j+1] = grade[i][j];
+				grade[i][j]=0;
+			}
+		}
+	}
+
+	private void movimentaPecaEsquerda(){
+		for(int i=grade.length-1; i>=0; i--) {
+			for(int j=0; j<grade[0].length; j++) {
+				if(!this.ehPeca(i, j)){
+					continue; //pula para o próximo loop
+				}
+				
+				grade[i][j-1] = grade[i][j];
+				grade[i][j]=0;
+			}
+		}
+	}
+
+	private boolean ehPeca(int i, int j){
+
+		return (grade[i][j]==5 || //Barra
+				grade[i][j]==6 || //Cadeira
+				grade[i][j]==7 || //Triangulo
+				grade[i][j]==8    //Quadrado
+				);
 	}
 	
-	public void paraDireita()
-	{
-			boolean podeMovimentar = true;
-			boolean controle = false;
-			try{
-			for(int j=grade[0].length-1; j>=0; j--)
-			{
-				for(int i=grade.length-1; i>=0; i--)
-						if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-						{
-							controle = true;
-							//Verifica se pode movimentar
-							if(grade[i][j+1] == 0)
-							{
-								podeMovimentar = true;
-							}
-							else
-							{
-								podeMovimentar= false;
-								break;
-							}
-							
-					}
-					if(controle) break; 
+	private boolean ehPecaFixa(int i, int j){
+		
+		return (grade[i][j]==1 || //Barra
+				grade[i][j]==2 || //Cadeira
+				grade[i][j]==3 || //Triangulo
+				grade[i][j]==4    //Quadrado
+				);
+	}
+	
+	public void paraEsquerda(){
+
+		try {
+			if(this.podeMovimentar("esquerda")){
+				this.movimentaPecaEsquerda();
 			}
-						
-							//Movimenta
-					for(int j=grade[0].length-1; j>=0; j--)
-						for(int i=grade.length-1; i>=0; i--)
-							if(grade[i][j]==5||grade[i][j]==6||grade[i][j]==7||grade[i][j]==8)
-							{
-								if(podeMovimentar)
-								{
-									grade[i][j+1]=grade[i][j];
-									grade[i][j]=0;
-								}
-								else
-								{
-									//		return true;
-								}
-							}
-							
-					} //Fim Try
-					catch(ArrayIndexOutOfBoundsException e)
-					{	
-						//	return true;				
-					}
-				//	return false;
+		} catch(ArrayIndexOutOfBoundsException e){
+
+		}	
+	}
+	
+	public void paraDireita() {
+		try {
+			if(this.podeMovimentar("direita")){
+				this.movimentaPecaDireita();
+			}
+		} catch(ArrayIndexOutOfBoundsException e){
+
+		}
 	}
 	
 
-	public void fixaPeca()
-	{
+	public void fixaPeca() {
 		for(int i=0; i<grade.length; i++)
 			for(int j=0; j<grade[0].length; j++)
 				if(grade[i][j]==5)
@@ -277,106 +220,77 @@ public class Cenario
 					grade[i][j]=4;
 	}
 	
-	public void caiPeca()
-	{
-		while(!descePeca())
-		{
-		}
+	public void caiPeca() {
+		while(!descePeca()){}
 	}
 	
-	public boolean perdeu()
-	{
-		//this.perdeu = true;
+	public boolean perdeu() {
 		for(int j = 0; j < grade[0].length; j++)
 			if(grade[0][j] != 0 && grade[0][j] < 5)
 				return true;
 		return false;
 	}
 	
-/*	public boolean perdeu()
-	{
-		return perdeu;
-	}*/
-	
-	public int verificaLinhaCompleta()
-	{
-		boolean teste = false;
-		int cont = 0;
-		for(int i=grade.length-1; i>=0; i--)
-		{
-			teste=false;
-			for(int j=grade[0].length-1; j>=0; j--)
-				if(grade[i][j]!=0 && grade[i][j]<5)
-					teste=true;
-				else
-				{
-				
-					teste=false;
+	public int verificaLinhaCompleta(){		
+		int numLinhasCompletas= 0;
+		boolean ehLinhaCompleta = false;
+		//De baixo para cima, percorre todas as linhas
+		for(int i=grade.length-1; i>=0; i--) {
+
+			//Considera que a linha e completa, se não for, o próximo laço irá marcar como falsa
+			ehLinhaCompleta = true;
+
+			//Percorre todos os blocos de uma linha,
+			//se pelo menos um não for peça fixa,
+			//pula para a próxima linha
+			for(int j=grade[0].length-1; j>=0; j--) {
+				if(!this.ehPecaFixa(i, j)) {
+					ehLinhaCompleta = false;
 					break;
 				}
-			
-			if(teste)
-			{
-				for(int a=i; a>0; a--)
-					for(int b=0; b<grade[0].length; b++)
-						if(grade[a][b]<5)
-							grade[a][b]=grade[a-1][b];
-				cont++;
-				i++;
 			}
 
+			//Se chegou aqui é porque todos são peça fixa.
+			if(ehLinhaCompleta){
+				//Nesse caso, move todos os blocos de cima deste,
+				//uma casa para baixo.
+				for(int a=i; a>0; a--)
+					for(int b=0; b<grade[0].length; b++)
+						if(this.ehPecaFixa(a, b)) {
+							grade[a][b]=grade[a-1][b];
+						}
+				numLinhasCompletas++;
+				i++;
+			}					
 		}
 		
-		if(cont == 1)
-			return cont*100;
-		else if(cont == 2)
-			return cont*150;
-		else if(cont > 2)
-			return cont*250;
+		if(numLinhasCompletas == 1)
+			return numLinhasCompletas*100;
+		else if(numLinhasCompletas == 2)
+			return numLinhasCompletas*150;
+		else if(numLinhasCompletas > 2)
+			return numLinhasCompletas*250;
 		
 		return 0;
 	}
 	
-	public void setPecaAtual()
-	{
+	public void setPecaAtual() {
 		pecaAtual = proxima;
 		this.setProxima(this.geraPeca());
 	}
 	
-	public void setProxima(Peca a) {
-		proxima = a;
-	}
+	public void setProxima(Peca a) { proxima = a; }
+	public Peca getPecaAtual() {  return pecaAtual; }
+	public Peca getProxima() {  return proxima; }
 	
-	public Peca getPecaAtual() {
-		return pecaAtual;
-	}
-	
-	public Peca getProxima() {
-		return proxima;
-	}
-	
-	
-	public Peca geraPeca()
-	{
-		int x = (int)(Math.random()*4+1);
-		Peca p = null;
-		
-		switch(x)
-		{
-			
-			case 1:
-				p = new Barra();
-				break;
-			case 2:
-				p = new Triangulo();
-				break;
-			case 3:
-				p = new Quadrado();
-				break;
-			case 4:
-				p = new Cadeira();
-				break;
+	public Peca geraPeca() {
+		int x = (int)(Math.random()*4+1);				
+		switch(x) {
+			case 1: return new Barra();
+			case 2: return new Triangulo();
+			case 3: return new Quadrado();
+			case 4:	return new Cadeira();
 		}
-		return p;
+		return null;
 	}
 }
