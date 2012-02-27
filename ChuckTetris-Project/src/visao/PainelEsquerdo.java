@@ -27,6 +27,7 @@ public class PainelEsquerdo extends JPanel
 		for(int i=0; i<grade.length; i++) {
 			for(int j=0; j<grade[0].length; j++)
 			{
+				//@todo ROTEIRO: Pinte todas as peças com um verde brilhante para que o jogo se pareça com os terminais antigos de vídeo-game
 				if(grade[i][j]==0)
 					g.setColor(Color.black);
 				else if(grade[i][j]==1||grade[i][j]==5)
@@ -38,6 +39,16 @@ public class PainelEsquerdo extends JPanel
 				else if(grade[i][j]==4||grade[i][j]==8)
 					g.setColor(Color.yellow);
 
+				//@todo DESAFIO: Encontre uma ou várias imagens interessantes e ao invés de quadrados coloridos, exiba imagens.
+				/* para exibir images utilize as linhas abaixo
+					try{ //o bloco try garante que, se a imagem não existir, um erro será lançado
+						URL url = this.getClass().getResource("/resources/img/nomeimg.jpg"); //Carrega caminho da imagem
+						Image image = ImageIO.read(url); //Carrega imagem
+						graphic.drawImage(image, x, y, null); //Desenha imagem
+					catch(IOException e){
+						e.printStackTrace();
+					}
+				 */
 				g.fillRect(15*j+1, 15*i+1, 15, 15);
 			}
 		}

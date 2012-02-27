@@ -166,6 +166,7 @@ public class JanelaPrincipal extends JFrame implements ActionListener
 			Sobre sobre = new Sobre();
 
 		} else if(botaoPressionado == this.equipe){
+			//@todo Prática Aula: Coloque seu nome no hall de desenvolvedores deste projeto.
 			JOptionPane.showMessageDialog(null, "Kaléu Caminha\nRobinson Zimmermann\nMurilo Soares Laghi", "Chuck Tetris", JOptionPane.PLAIN_MESSAGE);
 
 		} else if(botaoPressionado == this.novoJogo){
@@ -187,6 +188,7 @@ public class JanelaPrincipal extends JFrame implements ActionListener
 	 * Altera a informação de tempo de jogo
 	 */
 	public void mostraTempo(long tempo) {
+		//@todo ROTEIRO: Quando passar de 60 segundos, exibir os minutos. Ex: 2m e 30s.
 		this.tempoTF.setText(""+tempo);
 	}
 

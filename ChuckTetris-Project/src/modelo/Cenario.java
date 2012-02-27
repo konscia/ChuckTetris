@@ -135,7 +135,7 @@ public class Cenario
 					continue; //pula para o próximo loop
 				}
 
-				grade[i+1][j] = grade[i][j];		
+				grade[i+1][j] = grade[i][j];
 				grade[i][j]=0;
 			}
 		}
@@ -284,6 +284,7 @@ public class Cenario
 	public Peca getProxima() {  return proxima; }
 	
 	public Peca geraPeca() {
+		//@todo ROTEIRO: o jogo está muito difícil, altere este método para aumentar a probabilidade de gerar barras e quadrados
 		int x = (int)(Math.random()*4+1);				
 		switch(x) {
 			case 1: return new Barra();

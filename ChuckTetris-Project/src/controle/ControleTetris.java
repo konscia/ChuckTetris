@@ -11,7 +11,7 @@ public class ControleTetris
 
 	private SecondsController secondsController;
 
-	private int frame = 0;
+	
 	private Jogador jogador;
 	public Cenario cenario;
 	private int nivel;
@@ -28,7 +28,6 @@ public class ControleTetris
 		janela = new JanelaPrincipal(this);
 		secondsController = new SecondsController(janela);
 		
-		frame = 0;		
 		temProximaPeca = true;
 		gameOver = true;
 
@@ -42,13 +41,12 @@ public class ControleTetris
 	public void novoJogo() {
 		jogador = new Jogador(JOptionPane.showInputDialog(null, "Qual sua graça?", "Chuck Tetris", JOptionPane.PLAIN_MESSAGE));
 		cenario = new Cenario();
-		frame = 0;
 		temProximaPeca = true;
-		this.secondsController.setTempo(0);		
+		this.secondsController.setTempo(0);
 		janela.mostraNome(jogador.getNome());
 		cenario.setPecaAtual();
 		this.setNivel(1);
-		gameOver = false;		
+		gameOver = false;
 	}
 	
 	public void setNivel(int n) {
@@ -64,6 +62,21 @@ public class ControleTetris
 		
 	private void gameLoop() {
 		if(gameOver) { return; }		
+
+		/*
+		 * @todo Adicionar controle pelo teclado aqui.
+		 * Para mover uma peça para esquerda basta chamar
+		 * cenario.paraEsquerda()
+		 * ou
+		 * cenario.paraDireita()
+		 * ou
+		 * cenario.caiPeca()
+		 *
+		 * a única dificuldade é saber a tecla que o usuário digitou
+		 */
+
+		//@todo No futuro quero adicionar controle pelo Joystick utilizando a lib JInput
+
 
 		//Se tem peça pra descer, calcula
 		if(cenario.descePeca() || caiPeca){
